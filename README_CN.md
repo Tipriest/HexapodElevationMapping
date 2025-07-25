@@ -50,7 +50,8 @@ Catkin 编译。
 
 ```bash
 cd ../../
-catkin_make -DCMAKE_BUILD_TYPE=Release
+catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
+catkin build
 source devel/setup.bash
 ```
 
