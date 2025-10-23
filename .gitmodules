@@ -28,3 +28,6 @@
 [submodule "any_node"]
 	path = any_node
 	url = https://github.com/leggedrobotics/any_node.git
+[submodule "rslidar_sdk"]
+	path = rslidar_sdk
+	url = git@github.com:Tipriest/rslidar_sdk.git
