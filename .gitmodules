@@ -13,9 +13,6 @@
 [submodule "velodyne_simulator"]
 	path = velodyne_simulator
 	url = https://bitbucket.org/DataspeedInc/velodyne_simulator.git
-[submodule "grid_map"]
-	path = grid_map
-	url = https://github.com/ANYbotics/grid_map
 [submodule "kindr"]
 	path = kindr
 	url = https://github.com/ANYbotics/kindr
