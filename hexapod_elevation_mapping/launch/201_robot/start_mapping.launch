@@ -1,0 +1,44 @@
+<launch>
+    <!-- Config -->
+    <arg name="enable_trav_est" default="false"/>
+    <arg name="world_frame_name" default="world"/>
+    <arg name="base_frame_name" default="base_link"/>
+    <arg name="base_odom_topic_name" default="/Odometry"/>
+    <arg name="lidar_topic_name" default="/rslidar_points_merged"/>
+
+    <!-- Elevation Mapping Topic remap -->
+    <arg name="elevation_map_topic_name" default="elevation_mapping/elevation_map" />
+    <arg name="elevation_map_raw_topic_name" default="elevation_mapping/elevation_map_raw" />
+    <arg name="visibility_cleanup_map_topic_name" default="elevation_mapping/visibility_cleanup_map" />
+    <arg name="use_rviz" default="false"/>
+
+    <!-- Elevation Mapping 建图程序 -->
+    <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
+        <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/robots/demos.yaml"/>
+        <param name="map_frame_id" type="string" value="$(arg world_frame_name)"/>
+        <param name="robot_base_frame_id" type="string" value="$(arg base_frame_name)"/>
+        <param name="track_point_frame_id" type="string" value="$(arg base_frame_name)"/>
+        <param name="input_sources/ground_truth_cloud/topic" type="string" value="$(arg lidar_topic_name)"/>
+        <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/elevation_maps/simple_demo_map.yaml" />
+        <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/postprocessing/postprocessor_pipeline.yaml" />
+        <remap from="elevation_mapping/elevation_map" to="$(arg elevation_map_topic_name)"/>
+        <remap from="elevation_mapping/elevation_map_raw" to="$(arg elevation_map_raw_topic_name)"/>
+        <remap from="elevation_mapping/visibility_cleanup_map" to="$(arg visibility_cleanup_map_topic_name)"/>
+    </node>
+
+    <!-- Traversability Estimation -->
+    <group if="$(arg enable_trav_est)">
+        <env name="ROSCONSOLE_CONFIG_FILE" value="$(find traversability_estimation)/config/rosconsole.conf"/>
+        <node pkg="traversability_estimation" type="traversability_estimation_node" name="traversability_estimation" output="screen">
+            <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/traversibility_est/robot.yaml"/>
+            <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/traversibility_est/robot_footprint_parameter.yaml"/>
+            <rosparam command="load" file="$(find hexapod_elevation_mapping)/config/traversibility_est/robot_filter_parameter.yaml"/>
+            <param name="map_frame_id" type="string" value="$(arg world_frame_name)"/>
+            <param name="robot_frame_id" type="string" value="$(arg base_frame_name)"/>
+            <param name="footprint/footprint_frame_id" type="string" value="$(arg base_frame_name)"/>
+        </node>
+    </group>
+
+    <!-- Rviz -->
+    <node name="hex_elemap_rviz" pkg="rviz" type="rviz" args="-d $(find hexapod_elevation_mapping)/model/modules/$(arg module_name)/$(arg module_name).rviz" required="true"/>
+</launch>
