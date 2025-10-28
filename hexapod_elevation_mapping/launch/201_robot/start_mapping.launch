@@ -1,16 +1,18 @@
 <launch>
     <!-- Config -->
     <arg name="enable_trav_est" default="false"/>
+    <arg name="enable_map_rviz" default="true"/>
+
     <arg name="world_frame_name" default="world"/>
     <arg name="base_frame_name" default="base_link"/>
     <arg name="base_odom_topic_name" default="/Odometry"/>
-    <arg name="lidar_topic_name" default="/rslidar_points_merged"/>
+    <arg name="lidar_topic_name" default="/rslidar_points_trans_merged"/>
 
     <!-- Elevation Mapping Topic remap -->
     <arg name="elevation_map_topic_name" default="elevation_mapping/elevation_map" />
     <arg name="elevation_map_raw_topic_name" default="elevation_mapping/elevation_map_raw" />
     <arg name="visibility_cleanup_map_topic_name" default="elevation_mapping/visibility_cleanup_map" />
-    <arg name="use_rviz" default="false"/>
+    <arg name="use_rviz" default="true"/>
 
     <!-- Elevation Mapping 建图程序 -->
     <node pkg="elevation_mapping" type="elevation_mapping" name="elevation_mapping" output="screen">
@@ -40,5 +42,7 @@
     </group>
 
     <!-- Rviz -->
-    <node name="hex_elemap_rviz" pkg="rviz" type="rviz" args="-d $(find hexapod_elevation_mapping)/model/modules/$(arg module_name)/$(arg module_name).rviz" required="true"/>
+    <group if="$(arg enable_map_rviz)">
+        <node name="hex_elemap_rviz" pkg="rviz" type="rviz" args="-d $(find hexapod_elevation_mapping)/model/modules/HexPercept1/HexPercept1.rviz" required="true"/>
+    </group>
 </launch>
