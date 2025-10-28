@@ -1,10 +1,10 @@
 <launch>
     <!-- Config -->
     <arg name="enable_trav_est" default="false"/>
-    <arg name="enable_map_rviz" default="true"/>
+    <arg name="enable_map_rviz" default="false"/>
 
     <arg name="world_frame_name" default="world"/>
-    <arg name="base_frame_name" default="base_link"/>
+    <arg name="base_frame_name" default="IMU_LINK"/>
     <arg name="base_odom_topic_name" default="/Odometry"/>
     <arg name="lidar_topic_name" default="/rslidar_points_trans_merged"/>
 
