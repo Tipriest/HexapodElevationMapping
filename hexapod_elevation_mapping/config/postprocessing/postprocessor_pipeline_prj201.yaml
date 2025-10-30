@@ -12,7 +12,7 @@ postprocessor_pipeline: # set by postprocessor_pipeline_name
     type: gridMapFilters/NormalVectorsFilter
     params:
       input_layer: elevation_inpainted
-      output_layers_prefix: normal_vectors_
+      output_layers_prefix: normal_
       radius: 0.1
       normal_vector_positive_axis: z
 
