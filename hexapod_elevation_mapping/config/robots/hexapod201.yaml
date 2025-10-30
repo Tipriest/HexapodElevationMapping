@@ -1,0 +1,21 @@
+# NOTE: The param commented out will be loaded by launch file.
+input_sources:
+  ground_truth_cloud: # A name to identify the input source
+    type: pointcloud # Supported types: pointcloud
+    # topic: /velodyne_points
+    queue_size: 1
+    publish_on_update: true # Whether to publish the elevation map after a callback from this source.
+    sensor_processor:
+      type: structured_light # Inorder to support cut-off min depth, max depth
+      ignore_points_above: 2
+      ignore_points_below: -2
+      cutoff_min_depth: -2
+      cutoff_max_depth: 2.0
+# map_frame_id: "world"
+# robot_base_frame_id: "base_link"
+robot_pose_with_covariance_topic: "" # Leaving this empty skipps pose covariance updates.
+robot_pose_cache_size: 200
+# track_point_frame_id: "base_link"
+track_point_x: 0.0
+track_point_y: 0.0
+track_point_z: 0.0
