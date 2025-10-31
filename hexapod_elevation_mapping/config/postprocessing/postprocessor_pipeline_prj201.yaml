@@ -25,6 +25,14 @@ postprocessor_pipeline: # set by postprocessor_pipeline_name
       parallelization_enabled: true
       thread_number: -1
 
+  # Compute surface normals.
+  - name: surface_normals_noblur
+    type: gridMapFilters/NormalVectorsFilter
+    params:
+      input_layer: elevation_inpainted
+      output_layers_prefix: normal_noblur_
+      radius: 0.1
+      normal_vector_positive_axis: z
 
   #  Delete layers that are not needed to reduce bandwidth
   #  - name: delete_original_layers
