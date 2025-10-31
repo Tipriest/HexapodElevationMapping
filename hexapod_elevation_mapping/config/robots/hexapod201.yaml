@@ -6,7 +6,7 @@ input_sources:
     queue_size: 1
     publish_on_update: true # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
-      type: structured_light # Inorder to support cut-off min depth, max depth
+      type: structured_light # (laser, structured_light, stereo, perfect) Inorder to support cut-off min depth, max depth
       ignore_points_above: 2
       ignore_points_below: -2
       cutoff_min_depth: -5.0
@@ -17,7 +17,7 @@ input_sources:
     queue_size: 1
     publish_on_update: true # Whether to publish the elevation map after a callback from this source.
     sensor_processor:
-      type: structured_light # Inorder to support cut-off min depth, max depth
+      type: structured_light # (laser, structured_light, stereo, perfect) Inorder to support cut-off min depth, max depth
       ignore_points_above: 2
       ignore_points_below: -2
       cutoff_min_depth: -5.0
