@@ -7,14 +7,26 @@ postprocessor_pipeline: # set by postprocessor_pipeline_name
   #     output_layer: elevation_inpainted_temp
   #     radius: 0.05
 
-  # Fill holes in the map with 0.0 value.
-  - name: inpaint
-    type: gridMapFilters/FillholeFilter
+  # # Fill holes in the map with 0.0 value.
+  # - name: inpaint
+  #   type: gridMapFilters/FillholeFilter
+  #   params:
+  #     input_layer: elevation
+  #     output_layer: elevation_inpainted_temp
+  #     fill_value: 0.0
+
+  - name: median
+    type: gridMapFilters/MedianFillFilter
     params:
       input_layer: elevation
       output_layer: elevation_inpainted_temp
-      fill_value: 0.0
-
+      fill_hole_radius: 5.0 # in m. 
+      filter_existing_values: false # Default is false. If enabled it also does a median computation for existing values. 
+      existing_value_radius: 0.2 # in m. Note that this option only has an effect if filter_existing_values is set true. 
+      num_erode_dilation_iterations: 4
+      fill_mask_layer: elevation # A layer that is used to compute which areas to fill. If not present in the input it is automatically computed. 
+      debug: false # If enabled, the additional debug_infill_mask_layer is published. 
+      debug_infill_mask_layer: infill_mask # Layer used to visualize the intermediate, sparse-outlier removed fill mask. Only published if debug is enabled.
 
   - name: mean_in_radius
     type: gridMapFilters/MeanInRadiusFilter
